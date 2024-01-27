@@ -2,8 +2,28 @@
 import SwiftUI
 
 struct SearchView: View {
+    @State var searchTerm = ""
+
+    var plants: [Plant] = PlantData
+    var filteredPlants: [Plant] {
+        guard !searchTerm.isEmpty else { return plants }
+        return plants.filter { $0.title.localizedCaseInsensitiveContains(searchTerm) }
+    }
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        NavigationStack {
+            List {
+                ForEach(filteredPlants) { item in
+                    NavigationLink(destination: DetailView()) {
+                        PlantRowView(plant: item)
+                            .padding(.vertical, 4)
+                    }
+                }
+            }
+            .navigationTitle("Plant Library")
+            .navigationBarTitleDisplayMode(.inline)
+        }
+        .searchable(text: $searchTerm, prompt: "Search Plants")
     }
 }
 
