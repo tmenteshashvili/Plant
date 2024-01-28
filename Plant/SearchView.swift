@@ -14,7 +14,7 @@ struct SearchView: View {
         NavigationStack {
             List {
                 ForEach(filteredPlants) { item in
-                    NavigationLink(destination: DetailView()) {
+                    NavigationLink(destination: DetailView(plant: item)) {
                         PlantRowView(plant: item)
                             .padding(.vertical, 4)
                     }
